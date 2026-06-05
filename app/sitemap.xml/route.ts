@@ -1,0 +1,6 @@
+import { ELECTRICIAN_PAGES, ELECTRICIAN_SERVICES } from "@/lib/electrician-data";
+import { getSiteUrl } from "@/lib/seo";
+
+const STATIC_PATHS = ["/", "/services", "/about", "/contact", "/privacy-policy", "/terms-of-service"] as const;
+function escapeXml(value: string) { return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&apos;"); }
+export function GET() { const siteUrl = getSiteUrl().replace(/\/$/, ""); const lastModified = new Date().toISOString(); const urls = [...STATIC_PATHS.map((path)=>({ loc:`${siteUrl}${path}`, priority:path==="/"?"1.0":"0.7" })), ...ELECTRICIAN_SERVICES.map((service)=>({ loc:`${siteUrl}/services/${service.slug}`, priority:"0.82" })), ...ELECTRICIAN_PAGES.map((page)=>({ loc:`${siteUrl}/${page.slug}`, priority: page.priority.toLowerCase().includes("high") ? "0.9" : "0.74" }))]; const body = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((url)=>`  <url>\n    <loc>${escapeXml(url.loc)}</loc>\n    <lastmod>${lastModified}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>${url.priority}</priority>\n  </url>`).join("\n")}\n</urlset>\n`; return new Response(body, { headers: { "Content-Type":"application/xml; charset=utf-8", "Cache-Control":"public, max-age=3600" } }); }

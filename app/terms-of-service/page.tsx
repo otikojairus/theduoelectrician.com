@@ -1,0 +1,5 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Terms Electrical Service Dispatch Canada", description: "Terms of service for The Duo Electrician, including availability, quote factors, safe access, electrical service scope, and emergency guidance.", alternates: { canonical: "/terms-of-service" } };
+
+export default function TermsPage() { return <main className="tde-shell"><section className="tde-diagnostic-section"><div className="tde-container tde-prose"><h1>Terms Of Service</h1><p>The Duo Electrician provides information and service coordination for electrician requests across Canada.</p><p>Service availability, pricing, and response time depend on location, access, electrician availability, parts, permits, panel condition, utility requirements, and the final scope of work.</p><p>Callers are responsible for providing accurate information and safe access. If there is immediate risk to life or property, contact emergency services first.</p></div></section></main>; }
